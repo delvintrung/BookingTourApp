@@ -26,6 +26,12 @@
       "bundler": "metro"
     },
     "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow BookingTourApp to use your location."
+        }
+      ],
       "expo-router",
       [
         "expo-splash-screen",
