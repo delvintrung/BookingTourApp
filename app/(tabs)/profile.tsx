@@ -1,7 +1,8 @@
+import { AuthContext } from "@/context/AuthProvider";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -27,13 +28,13 @@ const MenuItem = ({ icon, text, showBorder = true }: MenuItemProps) => (
 
 export default function ProfileScreen() {
   const router = useRouter();
-  const [isLogin, setIsLogin] = useState(false);
+  const { userInfo } = useContext(AuthContext);
   return (
     <View className="flex-1 bg-white">
       <StatusBar style="dark" />
 
       <SafeAreaView edges={["top"]} className="flex-1">
-        {isLogin ? (
+        {userInfo ? (
           <ScrollView showsVerticalScrollIndicator={false}>
             <View className="px-5 pb-6 bg-white">
               <Text className="text-3xl font-bold text-black mt-2 mb-6">
@@ -48,7 +49,7 @@ export default function ProfileScreen() {
                 <View className="ml-4 flex-1">
                   <View className="flex-row justify-between items-center">
                     <Text className="text-xl font-bold text-gray-900">
-                      Delvin Trung
+                      {userInfo.fullname}
                     </Text>
                     <Ionicons
                       name="chevron-forward"
