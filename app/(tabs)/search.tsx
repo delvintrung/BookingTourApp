@@ -1,9 +1,13 @@
+import { getTours } from "@/api/tourApi";
 import { Ionicons } from "@expo/vector-icons";
+import { useQueryClient } from "@tanstack/react-query";
 import { LinearGradient } from "expo-linear-gradient";
 import * as Location from "expo-location";
+import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   Alert,
   Image,
   Linking,
@@ -16,18 +20,32 @@ import { SelectList } from "react-native-dropdown-select-list";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function TabTwoScreen() {
+  const queryClient = useQueryClient();
+  const router = useRouter();
   const [location, setLocation] =
     useState<Location.LocationObjectCoords | null>(null);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [passengerOptionSelected, setPassengerOptionSelected] = useState("");
 
-  // Define hash object for passenger options
   const data = [
     { key: "1", value: "1 Passenger" },
     { key: "2", value: "2 Passengers" },
     { key: "3", value: "More than 2 Passengers" },
   ];
+
+  const fetchAllTours = async () => {
+    setLoading(true);
+    router.push("/tour/feed");
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    queryClient.prefetchQuery({
+      queryKey: ["tours"],
+      queryFn: getTours,
+    });
+  }, []);
 
   const handleGetLocation = async () => {
     setLoading(true);
@@ -50,13 +68,9 @@ export default function TabTwoScreen() {
         return;
       }
 
-      // 2. Lấy vị trí (Get Position)
-      // accuracy: Location.Accuracy.High giúp lấy chính xác hơn (nhưng tốn pin hơn chút)
       let currentLocation = await Location.getCurrentPositionAsync({
         accuracy: Location.Accuracy.High,
       });
-
-      console.log("Current Location:", location);
 
       setLocation(currentLocation.coords);
     } catch (error) {
@@ -161,8 +175,13 @@ export default function TabTwoScreen() {
           <TouchableOpacity
             activeOpacity={0.8}
             className="mt-4 bg-[#FD8D14] rounded-xl py-4 items-center justify-center shadow-sm"
+            onPress={fetchAllTours}
           >
-            <Text className="text-white text-lg font-bold">Find Tour</Text>
+            {loading ? (
+              <ActivityIndicator color="white" />
+            ) : (
+              <Text className="text-white text-lg font-bold">Find Tour</Text>
+            )}
           </TouchableOpacity>
         </View>
       </SafeAreaView>

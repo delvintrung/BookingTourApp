@@ -28,7 +28,7 @@ const MenuItem = ({ icon, text, showBorder = true }: MenuItemProps) => (
 
 export default function ProfileScreen() {
   const router = useRouter();
-  const { userInfo } = useContext(AuthContext);
+  const { userInfo, userToken } = useContext(AuthContext);
   return (
     <View className="flex-1 bg-white">
       <StatusBar style="dark" />

@@ -131,3 +131,10 @@ export interface Payment {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface NotificationCardProps {
+  header: string;
+  title: string;
+  price: string;
+  dateInfo: string;
+}

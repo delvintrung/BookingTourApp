@@ -53,6 +53,12 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="tour"
+        options={{
+          href: null,
+        }}
+      />
     </Tabs>
   );
 }

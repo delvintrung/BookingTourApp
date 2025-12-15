@@ -1,4 +1,4 @@
-import FormSearchTour from "@/components/form/FormSearchTour";
+import SearchTour from "@/components/form/SearchTour";
 import {
   ImageBackground,
   KeyboardAvoidingView,
@@ -23,7 +23,7 @@ export default function HomeScreen() {
       >
         <View className="flex-1 bg-white">
           <ImageBackground
-            className="w-full h-1/2 relative bg flex-col items-center"
+            className="w-full h-1/2 relative items-center"
             style={{ paddingTop: insets.top }}
             source={require("../../assets/UI/banner.webp")}
           >
@@ -31,7 +31,7 @@ export default function HomeScreen() {
               Search for cheap airline tickets
               <Text className="font-bold text-orange-500"> BookingTour</Text>
             </Text>
-            <FormSearchTour />
+            <SearchTour />
           </ImageBackground>
 
           <View className="p-4 mt-4">
