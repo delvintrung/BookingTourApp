@@ -4,9 +4,9 @@ export default function TourLayout() {
   return (
     <Stack>
       <Stack.Screen
-        name="feed"
+        name="detail/[id]"
         options={{
-          title: "Tour Feed",
+          title: "Tour Detail",
           headerShown: false,
         }}
       />

@@ -1,12 +1,12 @@
 import { Stack } from "expo-router";
 
-export default function TourLayout() {
+export default function PaymentLayout() {
   return (
     <Stack>
       <Stack.Screen
-        name="feed"
+        name="pay"
         options={{
-          title: "Tour Feed",
+          title: "Payment",
           headerShown: false,
         }}
       />

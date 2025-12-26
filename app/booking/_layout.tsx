@@ -1,12 +1,12 @@
 import { Stack } from "expo-router";
 
-export default function TourLayout() {
+export default function BookingLayout() {
   return (
     <Stack>
       <Stack.Screen
-        name="feed"
+        name="book"
         options={{
-          title: "Tour Feed",
+          title: "Booking",
           headerShown: false,
         }}
       />
