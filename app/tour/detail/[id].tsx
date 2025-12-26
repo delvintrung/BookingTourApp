@@ -16,6 +16,8 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TabBar, TabView } from "react-native-tab-view";
 
+import { List, Modal, PaperProvider, Portal } from "react-native-paper";
+
 type Route = {
   key: string;
   title: string;
@@ -28,6 +30,11 @@ const DetailTourScreen = () => {
     queryFn: () => getTourById(Number(id)),
   });
   const router = useRouter();
+  const [visible, setVisible] = React.useState(false);
+
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
+  const containerStyle = { backgroundColor: "white", padding: 20 };
 
   const layout = useWindowDimensions();
   const [indexTab, setIndexTab] = useState<number>(0);
@@ -163,110 +170,141 @@ const DetailTourScreen = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-white" edges={["top", "left", "right"]}>
-      <View className="flex-1">
-        <ScrollView
-          className="flex-1"
-          showsVerticalScrollIndicator={false}
-          bounces={false}
-        >
-          <View className="h-[300px]">
-            <ImageBackground
-              source={{ uri: tour?.imageUrl }}
-              className="h-full w-full"
-              resizeMode="cover"
-            />
-          </View>
-
-          <View className="bg-white rounded-t-3xl -mt-6 pt-6">
-            <View className="px-4 pb-4">
-              <View className="flex-row justify-between items-start mb-2">
-                <Text className="text-2xl font-extrabold flex-1 mr-2">
-                  {tour?.location}
-                </Text>
-                <Text className="text-blue-500 font-bold text-xl">
-                  {tour?.tourDetails?.[0]?.tourPrices?.[0]?.price?.toLocaleString(
-                    "vi-VN",
-                    {
-                      style: "currency",
-                      currency: "VND",
-                    }
-                  )}
-                </Text>
-              </View>
-
-              <View className="flex-row items-center">
-                <Text className="font-bold text-yellow-600 mr-1">
-                  {tour?.rating || 4.5}
-                </Text>
-                <Ionicons name="star" size={16} color="#CA8A04" />
-                <Text className="text-gray-400 text-xs ml-2">
-                  *Estimated Cost
-                </Text>
-              </View>
-            </View>
-
-            <View className="h-[400px]">
-              <TabView
-                navigationState={{ index: indexTab, routes }}
-                renderScene={renderScene}
-                onIndexChange={setIndexTab}
-                initialLayout={{ width: layout.width }}
-                renderTabBar={(props) => (
-                  <TabBar
-                    {...props}
-                    style={{
-                      backgroundColor: "white",
-                      elevation: 0,
-                      borderBottomWidth: 1,
-                      borderBottomColor: "#f3f4f6",
-                    }}
-                    indicatorStyle={{ backgroundColor: "#FD8D14", height: 3 }}
-                    activeColor="#111827"
-                    inactiveColor="#9CA3AF"
-                    // @ts-ignore
-                    renderLabel={({ route, focused, color }: any) => (
-                      <Text
-                        style={{
-                          color: color,
-                          fontSize: 14,
-                          fontWeight: focused ? "700" : "500",
-                          textTransform: "uppercase",
-                        }}
-                      >
-                        {route.title}
-                      </Text>
-                    )}
-                  />
-                )}
+      <PaperProvider>
+        <View className="flex-1">
+          <ScrollView
+            className="flex-1"
+            showsVerticalScrollIndicator={false}
+            bounces={false}
+          >
+            <View className="h-[300px]">
+              <ImageBackground
+                source={{ uri: tour?.imageUrl }}
+                className="h-full w-full"
+                resizeMode="cover"
               />
             </View>
 
-            <View className="px-4 py-4 pb-24">
-              <Text className="text-lg font-bold mb-3">Suggested Tours</Text>
-              <TourSuggest />
-              <TourSuggest />
-              <TourSuggest />
-            </View>
-          </View>
-        </ScrollView>
+            <View className="bg-white rounded-t-3xl -mt-6 pt-6">
+              <View className="px-4 pb-4">
+                <View className="flex-row justify-between items-start mb-2">
+                  <Text className="text-2xl font-extrabold flex-1 mr-2">
+                    {tour?.location}
+                  </Text>
+                  <Text className="text-blue-500 font-bold text-xl">
+                    {tour?.tourDetails?.[0]?.tourPrices?.[0]?.price?.toLocaleString(
+                      "vi-VN",
+                      {
+                        style: "currency",
+                        currency: "VND",
+                      }
+                    )}
+                  </Text>
+                </View>
 
-        <View className="absolute bottom-0 left-0 right-0 p-4 border-t flex-row justify-between items-center bg-white shadow-lg">
-          <View className="flex-1 mr-3 border-2 border-blue-500 rounded-full py-3 items-center">
-            <Text className="text-blue-500 font-bold">Price Details</Text>
+                <View className="flex-row items-center">
+                  <Text className="font-bold text-yellow-600 mr-1">
+                    {tour?.rating || 4.5}
+                  </Text>
+                  <Ionicons name="star" size={16} color="#CA8A04" />
+                  <Text className="text-gray-400 text-xs ml-2">
+                    *Estimated Cost
+                  </Text>
+                </View>
+              </View>
+
+              <View className="h-[400px]">
+                <TabView
+                  navigationState={{ index: indexTab, routes }}
+                  renderScene={renderScene}
+                  onIndexChange={setIndexTab}
+                  initialLayout={{ width: layout.width }}
+                  renderTabBar={(props) => (
+                    <TabBar
+                      {...props}
+                      style={{
+                        backgroundColor: "white",
+                        elevation: 0,
+                        borderBottomWidth: 1,
+                        borderBottomColor: "#f3f4f6",
+                      }}
+                      indicatorStyle={{ backgroundColor: "#FD8D14", height: 3 }}
+                      activeColor="#111827"
+                      inactiveColor="#9CA3AF"
+                      // @ts-ignore
+                      renderLabel={({ route, focused, color }: any) => (
+                        <Text
+                          style={{
+                            color: color,
+                            fontSize: 14,
+                            fontWeight: focused ? "700" : "500",
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          {route.title}
+                        </Text>
+                      )}
+                    />
+                  )}
+                />
+              </View>
+
+              <View className="px-4 py-4 pb-24">
+                <Text className="text-lg font-bold mb-3">Suggested Tours</Text>
+                <TourSuggest />
+                <TourSuggest />
+                <TourSuggest />
+              </View>
+            </View>
+          </ScrollView>
+
+          <View className="absolute bottom-0 left-0 right-0 p-4 border-t flex-row justify-between items-center bg-white shadow-lg">
+            <TouchableOpacity
+              onPress={showModal}
+              className="flex-1 mr-3 border-2 border-blue-500 rounded-full py-3 items-center"
+            >
+              <Text className="text-blue-500 font-bold">Price Details</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="flex-[2] bg-blue-500 rounded-full py-3.5 items-center shadow-sm"
+              onPress={() =>
+                router.push({
+                  pathname: `/booking/book`,
+                  params: { tour: JSON.stringify(tour) },
+                })
+              }
+            >
+              <Text className="text-white font-bold text-lg">Book Now</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            className="flex-[2] bg-blue-500 rounded-full py-3.5 items-center shadow-sm"
-            onPress={() =>
-              router.push({
-                pathname: `/booking/book`,
-                params: { tour: JSON.stringify(tour) },
-              })
-            }
-          >
-            <Text className="text-white font-bold text-lg">Book Now</Text>
-          </TouchableOpacity>
         </View>
-      </View>
+        <Portal>
+          <Modal
+            visible={visible}
+            onDismiss={hideModal}
+            contentContainerStyle={containerStyle}
+          >
+            <List.AccordionGroup>
+              {tour?.tourDetails?.map((detail, index) => (
+                <List.Accordion
+                  title={`Khởi hành tại: ${detail.startLocation}`}
+                  key={index}
+                  id={index.toString()}
+                >
+                  <List.Item title={`Ngày bắt đầu: ${detail.startDay}`} />
+                  <List.Item title={`Ngày kết thúc: ${detail.endDay}`} />
+                  <List.Item
+                    title={`Giá người lớn: ${detail?.tourPrices?.[0]?.price}`}
+                  />
+                  <List.Item
+                    title={`Giá trẻ em: ${detail?.tourPrices?.[1]?.price}`}
+                  />
+                </List.Accordion>
+              ))}
+            </List.AccordionGroup>
+          </Modal>
+        </Portal>
+      </PaperProvider>
     </SafeAreaView>
   );
 };

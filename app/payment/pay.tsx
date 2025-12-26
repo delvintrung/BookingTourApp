@@ -38,7 +38,7 @@ const PaymentScreen = () => {
             <View className="w-16 h-16 bg-white rounded-lg items-center justify-center border border-gray-200">
               <Image
                 source={{
-                  uri: "https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png",
+                  uri: "https://cdn.haitrieu.com/wp-content/uploads/2022/10/Icon-VNPAY-QR.png",
                 }}
                 style={{ width: 40, height: 40 }}
                 resizeMode="contain"
@@ -122,7 +122,6 @@ const PaymentScreen = () => {
             </View>
           </View>
 
-          {/* Note */}
           {selectedMethod === "cash" && (
             <View className="mt-4 p-4 bg-yellow-50 rounded-xl flex-row">
               <Ionicons name="information-circle" size={20} color="#F59E0B" />
@@ -135,7 +134,6 @@ const PaymentScreen = () => {
         </View>
       </ScrollView>
 
-      {/* Bottom CTA */}
       <View className="p-4 border-t border-gray-200">
         <TouchableOpacity className="bg-blue-600 py-4 rounded-xl">
           <Text className="text-white text-center text-base font-semibold">
